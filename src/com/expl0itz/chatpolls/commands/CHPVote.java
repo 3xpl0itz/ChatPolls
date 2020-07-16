@@ -35,12 +35,12 @@ public class CHPVote extends BasicCommand{
 			sender.sendMessage(ChatColor.AQUA + MainChatPolls.pluginPrefix + " There are no active polls!");
 		    return true;
 		}
-		else if (!args[0].chars().allMatch( Character::isDigit ) && args.length == 1) //check if first arg is a dig + exists
+		else if (args.length == 1 && (!args[0].chars().allMatch( Character::isDigit ))) //check if first arg is a dig + exists
 		{
 			sender.sendMessage(ChatColor.AQUA + MainChatPolls.pluginPrefix + " Please type the number of your desired poll after /chpvote, followed by the number of what option you would like.");
 			return true;
 		}
-		else if (!args[1].chars().allMatch( Character::isDigit ) && args.length == 2)  //check if first arg is a dig (not negative as well!) + exists
+		else if ((args.length == 2 && (!args[0].chars().allMatch( Character::isDigit )))) //check if first arg is a dig (not negative as well!) + exists
 		{
 			sender.sendMessage(ChatColor.AQUA + MainChatPolls.pluginPrefix + " Please type the number of your desired poll after /chpvote, followed by the number of what option you would like.");
 			return true;
