@@ -1,5 +1,5 @@
 name: ChatPolls
-version: 1.0
+version: 1.01
 description: Generate simple chat polls for Minecraft servers.
 api-version: 1.15
 author: 3xpl0itz
@@ -43,7 +43,7 @@ commands:
         permission-message: You do not have permission to run this command.
 permissions:
     chatpolls.*:
-        description: Gives access to all ChatPolls commands
+        description: Gives access to all ChatPolls commands.
         children:
             chatpolls.chpversion: true
             chatpolls.chpstart: true
@@ -51,6 +51,7 @@ permissions:
             chatpolls.chpinfo: true
             chatpolls.chpfinish: true
             chatpolls.chpreload: true
+        default: op
     chatpolls.chpversion:
         description: Displays ChatPolls's current version.
         default: true        

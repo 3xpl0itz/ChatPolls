@@ -29,7 +29,7 @@ import com.expl0itz.chatpolls.util.EachPoll;
 
 public class MainChatPolls extends JavaPlugin
 {
-	public static Double pluginVersion = 1.0; //Double instead of prim type so we can set to null
+	public static Double pluginVersion = 1.01; //Double instead of prim type so we can set to null
 	public static String pluginPrefix = "[ChP]";
 	public static ArrayList<EachPoll> currentPolls = new ArrayList<>();
 	
@@ -40,15 +40,15 @@ public class MainChatPolls extends JavaPlugin
 		getServer().getPluginManager().registerEvents(new CHPEventHandler(this), this); //EventHandler
 		CHPConfigHandler CHPConfig = new CHPConfigHandler(this); //New Config Object
 		CHPConfig.loadConfiguration(); //Load Config
-		new CHPUpdateChecker(this, 12345).getVersion(version -> //int = Spigot ID
+		new CHPUpdateChecker(this, 81542).getVersion(version -> //int = Spigot ID
 		{
 			if (this.getDescription().getVersion().equalsIgnoreCase(version))
 			{
-				getLogger().info(pluginPrefix + " No new update available.");
+				getLogger().info("No new update available.");
 			}
 			else
 			{
-				getLogger().info(pluginPrefix + " There is a new update available! (Current version: " + pluginVersion + ", New version: " + version + ".)");
+				getLogger().info("There is a new update available! (Current version: " + pluginVersion + ", New version: " + version + ".)");
 			}
 		});
 		getLogger().info("Enabled ChatPolls version " + pluginVersion + "."); //We good
