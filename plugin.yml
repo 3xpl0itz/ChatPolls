@@ -1,0 +1,71 @@
+name: ChatPolls
+version: 1.0
+description: Generate simple chat polls for Minecraft servers.
+api-version: 1.15
+author: 3xpl0itz
+main: com.expl0itz.chatpolls.MainChatPolls
+commands:
+    chpversion:
+        description: Displays ChatPolls's current version.
+        aliases: [chatpollsversion]
+        usage: /chpversion
+        permission: chatpolls.chpversion
+        permission-message: You do not have permission to run this command.
+    chpstart:
+        description: Starts a poll.
+        aliases: [chatpollsstart]
+        usage: /chpstart <name> <description> <option1> <option2>...
+        permission: chatpolls.chpstart
+        permission-message: You do not have permission to run this command.
+    chpvote:
+        description: Votes on an active poll.
+        aliases: [chatpollsvote]
+        usage: /chpvote <pollNumber> <optionNumber>
+        permission: chatpolls.chpstart
+        permission-message: You do not have permission to run this command.
+    chpinfo:
+        description: Gets information on an active poll.
+        aliases: [chatpollsinfo]
+        usage: /chpinfo <pollNumber>
+        permission: chatpolls.chpinfo
+        permission-message: You do not have permission to run this command.
+    chpfinish:
+        description: Ends an active poll.
+        aliases: [chatpollsfinish]
+        usage: /chpfinish <pollNumber>
+        permission: chatpolls.chpfinish
+        permission-message: You do not have permission to run this command.
+    chpreload:
+        description: Reloads ChatPolls's configuration files.
+        aliases: [chatpollsreload]
+        usage: /chpreload
+        permission: chatpolls.chpreload
+        permission-message: You do not have permission to run this command.
+permissions:
+    chatpolls.*:
+        description: Gives access to all ChatPolls commands
+        children:
+            chatpolls.chpversion: true
+            chatpolls.chpstart: true
+            chatpolls.chpvote: true
+            chatpolls.chpinfo: true
+            chatpolls.chpfinish: true
+            chatpolls.chpreload: true
+    chatpolls.chpversion:
+        description: Displays ChatPolls's current version.
+        default: true        
+    chatpolls.chpstart:
+        description: Starts a poll.
+        default: op
+    chatpolls.chpvote:
+        description: Votes on an active poll.
+        default: true
+    chatpolls.chpinfo:
+        description: Gets information on an active poll.
+        default: true
+    chatpolls.chpfinish:
+        description: Ends an active poll.
+        default: op
+    chatpolls.chpreload:
+        description: Reloads ChatPolls's configuration files.
+        default: op

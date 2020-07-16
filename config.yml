@@ -1,0 +1,34 @@
+
+# ChatPoll's Configuration File
+#
+#     ________          __  ____        ____    
+#    / ____/ /_  ____ _/ /_/ __ \____  / / /____
+#   / /   / __ \/ __ `/ __/ /_/ / __ \/ / / ___/
+#  / /___/ / / / /_/ / /_/ ____/ /_/ / / (__  ) 
+#  \____/_/ /_/\__,_/\__/_/    \____/_/_/____/
+#
+#
+# ChatPollsGeneral is the section dedicated to all of ChatPolls's general configurable settings.
+# ChatPollsSound is the section dedicated to all of ChatPolls's configurable sounds.
+
+ChatPollsGeneral:
+  # When a poll is active and a user logs in, the plugin will message them of any active polls currently taking place.
+  # 'true' is the default setting; replace with 'false' to prevent players logging in from receiving this message.
+  notifyUserOnLogin: true
+
+ChatPollsSound:
+  # When a poll starts, a sound is played to all players currently logged in.
+  # Default sound is 'BLOCK_ANVIL_LAND'.
+  # You can either choose a different sound from this list (in all caps):
+  # https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html
+  # Or, you can simply type 'None' to have no sound played to online players.
+  StartPoll: BLOCK_ANVIL_LAND
+
+  # When a poll ends, a sound is played to all players currently logged in.
+  # Default sound is 'ENTITY_BLAZE_DEATH'.
+  # You can either choose a different sound from this list (in all caps):
+  # https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html
+  # Or, you can simply type 'None' to have no sound played to online players.
+  FinishPoll: ENTITY_BLAZE_DEATH
+
+# It's the end...for now :)
