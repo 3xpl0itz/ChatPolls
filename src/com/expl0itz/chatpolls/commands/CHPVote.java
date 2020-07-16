@@ -40,7 +40,7 @@ public class CHPVote extends BasicCommand{
 			sender.sendMessage(ChatColor.AQUA + MainChatPolls.pluginPrefix + " Please type the number of your desired poll after /chpvote, followed by the number of what option you would like.");
 			return true;
 		}
-		else if ((args.length == 2 && (!args[0].chars().allMatch( Character::isDigit )))) //check if first arg is a dig (not negative as well!) + exists
+		else if ((args.length == 2 && ((!args[0].chars().allMatch( Character::isDigit )) || !args[1].chars().allMatch( Character::isDigit )))) //check if first arg is a dig (not negative as well!) + exists
 		{
 			sender.sendMessage(ChatColor.AQUA + MainChatPolls.pluginPrefix + " Please type the number of your desired poll after /chpvote, followed by the number of what option you would like.");
 			return true;
