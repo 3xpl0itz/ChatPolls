@@ -1,5 +1,5 @@
 name: ChatPolls
-version: 1.02
+version: 1.1
 description: Generate simple chat polls for Minecraft servers.
 api-version: 1.15
 author: 3xpl0itz
@@ -14,7 +14,7 @@ commands:
     chpstart:
         description: Starts a poll.
         aliases: [chatpollsstart]
-        usage: /chpstart <name> <description> <option1> <option2>...
+        usage: /chpstart <name> <description> <option1> <option2> (-clearchat)...
         permission: chatpolls.chpstart
         permission-message: You do not have permission to run this command.
     chpvote:
@@ -29,11 +29,23 @@ commands:
         usage: /chpinfo <pollNumber>
         permission: chatpolls.chpinfo
         permission-message: You do not have permission to run this command.
+    chpmodify:
+        description: Modifies an active poll.
+        aliases: [chatpollsmodify]
+        usage: /chpmodify <pollNumber>
+        permission: chatpolls.chpmodify
+        permission-message: You do not have permission to run this command.
     chpfinish:
         description: Ends an active poll.
         aliases: [chatpollsfinish]
         usage: /chpfinish <pollNumber>
         permission: chatpolls.chpfinish
+        permission-message: You do not have permission to run this command.
+    chptest:
+        description: Tests a poll by sending it just to the sender.
+        aliases: [chatpollstest]
+        usage: /chptest <name> <description> <option1> <option2> (-clearchat)...
+        permission: chatpolls.chptest
         permission-message: You do not have permission to run this command.
     chpreload:
         description: Reloads ChatPolls's configuration files.
@@ -51,6 +63,8 @@ permissions:
             chatpolls.chpinfo: true
             chatpolls.chpfinish: true
             chatpolls.chpreload: true
+            chatpolls.chpmodify: true
+            chatpolls.chptest: true
         default: op
     chatpolls.chpversion:
         description: Displays ChatPolls's current version.
@@ -64,9 +78,16 @@ permissions:
     chatpolls.chpinfo:
         description: Gets information on an active poll.
         default: true
+    chatpolls.chpmodify:
+        description: Modifies an active poll.
+        default: op
     chatpolls.chpfinish:
         description: Ends an active poll.
         default: op
     chatpolls.chpreload:
         description: Reloads ChatPolls's configuration files.
         default: op
+    chatpolls.chptest:
+        description: Tests a poll by sending it just to the sender.
+        default: true
+    

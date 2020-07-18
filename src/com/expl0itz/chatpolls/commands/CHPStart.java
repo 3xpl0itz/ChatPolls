@@ -27,15 +27,15 @@ public class CHPStart extends BasicCommand{
 	
 	public boolean processCommand()
 	{
-		if (args.length < 4)
+		if (args.length < 3)
 		{
-			sender.sendMessage(ChatColor.AQUA + MainChatPolls.pluginPrefix + " Not enough arguments supplied.");
+			sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Not enough arguments supplied.");
 			return false;
 		}
 		//TODO: Give the ability to be anonymous
 		Date now = new Date();
 		SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-		EachPoll currentPoll = new EachPoll(args[0].toString().replaceAll("_", " "),args[1].toString().replaceAll("_", " "), sender.getName(), format.format(now), MainChatPolls.currentPolls.size() + 1);
+		EachPoll currentPoll = new EachPoll(args[0].toString().replaceAll("_", " "),args[1].toString().replaceAll("_", " "), sender.getName(), format.format(now), plugin.currentPolls.size() + 1);
 			
 		for (int cycleThruOptions = 2; cycleThruOptions < args.length; cycleThruOptions++)
 		{
@@ -45,7 +45,7 @@ public class CHPStart extends BasicCommand{
 				{
 					Bukkit.broadcastMessage("");
 				}
-				sender.sendMessage(ChatColor.AQUA + MainChatPolls.pluginPrefix + " Chat cleared.");
+				sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Chat cleared.");
 			}
 			else
 			{
@@ -53,18 +53,18 @@ public class CHPStart extends BasicCommand{
 				currentPoll.addOptions(currPollOption);
 			}
 		}
-		sender.sendMessage(ChatColor.AQUA + MainChatPolls.pluginPrefix + " Sending poll to all available users...");
+		sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Sending poll to all available users...");
 		
 		boolean badConfig = false;
 		for (Player p : Bukkit.getOnlinePlayers())
 		{
-			p.sendMessage(ChatColor.AQUA + sender.getName() + " has created a poll: " + currentPoll.getTitle() + "\nDescription: " + currentPoll.getDescription() + "\n");
+			p.sendMessage(plugin.colorize(ChatColor.AQUA + sender.getName() + " has created a poll: " + currentPoll.getTitle() + "\nDescription: " + currentPoll.getDescription() + "\n"));
 				
 			for (EachOption eaOpp : currentPoll.getOptions())
 			{
-				p.sendMessage(ChatColor.AQUA + "" + eaOpp.getChoiceNumber() + ") " + eaOpp.getOptionName());
+				p.sendMessage(plugin.colorize(ChatColor.AQUA + "" + eaOpp.getChoiceNumber() + ") " + eaOpp.getOptionName()));
 			}
-			p.sendMessage(ChatColor.AQUA + MainChatPolls.pluginPrefix + ChatColor.GOLD + " Use /chpvote " + currentPoll.getNum() + " <yourOption> to vote on this poll!");
+			p.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + ChatColor.GOLD + " Use /chpvote " + currentPoll.getNum() + " <yourOption> to vote on this poll!");
 			
 			//Get sound from config.yml!
 			//https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html <--- put in config.yml
@@ -84,10 +84,10 @@ public class CHPStart extends BasicCommand{
 		}
 		if (badConfig) // :(
 		{
-			sender.sendMessage(ChatColor.AQUA + MainChatPolls.pluginPrefix + " Default anvil sound was played because your config.yml has an invalid sound, or is corrupted."
+			sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Default anvil sound was played because your config.yml has an invalid sound, or is corrupted."
 			+ "\nPlease fix this issue to get rid of this message.\nValid Sounds List: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html");
 		}
-		MainChatPolls.currentPolls.add(currentPoll);
+		plugin.currentPolls.add(currentPoll);
 	return true;
 	}
 }

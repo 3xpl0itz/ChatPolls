@@ -18,7 +18,7 @@ public class CHPReload extends BasicCommand{
 	{
 		CHPConfigHandler CHPConfig = new CHPConfigHandler(plugin);
 		CHPConfig.reloadConfiguration();
-		sender.sendMessage(ChatColor.AQUA + MainChatPolls.pluginPrefix + " Configuration reloaded.");
+		sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Configuration reloaded.");
 		return true;
 	}
 }

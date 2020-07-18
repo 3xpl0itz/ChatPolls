@@ -27,14 +27,14 @@ public class CHPEventHandler implements Listener{
 			if (plugin.getConfig().getBoolean("ChatPollsGeneral.notifyUserOnLogin"))
 			{
 				Player p = event.getPlayer();
-				if (MainChatPolls.currentPolls.size() > 0)
+				if (plugin.currentPolls.size() > 0)
 				{
-					p.sendMessage(ChatColor.AQUA + MainChatPolls.pluginPrefix + " There are (" + MainChatPolls.currentPolls.size() + ")" + " active polls:\n");
-					for (int i = 0; i < MainChatPolls.currentPolls.size(); i++)
+					p.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " There are (" + plugin.currentPolls.size() + ")" + " active polls:\n");
+					for (int i = 0; i < plugin.currentPolls.size(); i++)
 					{
-						p.sendMessage(ChatColor.AQUA + "" + (i+1) + ") " + MainChatPolls.currentPolls.get(i).getTitle() + "\n- Description: " + MainChatPolls.currentPolls.get(i).getDescription() + "\n");
+						p.sendMessage(ChatColor.AQUA + "" + (i+1) + ") " + plugin.currentPolls.get(i).getTitle() + "\n- Description: " + plugin.currentPolls.get(i).getDescription() + "\n");
 					}
-					p.sendMessage(ChatColor.AQUA + MainChatPolls.pluginPrefix + " Type /chpinfo <numberOfPoll> to get more information about each poll!");
+					p.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Type /chpinfo <numberOfPoll> to get more information about each poll!");
 				}
 			}
 		}
@@ -42,7 +42,7 @@ public class CHPEventHandler implements Listener{
 		{
 			//Send it to console, ig
 			ConsoleCommandSender console = plugin.getServer().getConsoleSender();
-			console.sendMessage(ChatColor.AQUA + MainChatPolls.pluginPrefix + " ChatPolls was unable to determine the value for notifyUserOnLogin in your config.yml."
+			console.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " ChatPolls was unable to determine the value for notifyUserOnLogin in your config.yml."
 					+ "\nPlease fix this issue to get rid of this message.");
 		}
 	}

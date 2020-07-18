@@ -1,4 +1,3 @@
-
 # ChatPoll's Configuration File
 #
 #     ________          __  ____        ____    
@@ -10,11 +9,24 @@
 #
 # ChatPollsGeneral is the section dedicated to all of ChatPolls's general configurable settings.
 # ChatPollsSound is the section dedicated to all of ChatPolls's configurable sounds.
+# NOTICE: If some of the settings here are unorganized or corrupted, you can
+# always regenerate the configuration by deleting ChatPolls's data folder + config.yml.
 
 ChatPollsGeneral:
+
+  # Change the prefix that appears next to most messages sent by this plugin.
+  # Default is '[ChP]'.
+  prefixName: [ChP]
+  
   # When a poll is active and a user logs in, the plugin will message them of any active polls currently taking place.
-  # 'true' is the default setting; replace with 'false' to prevent players logging in from receiving this message.
+  # Default is 'true'.
+  # Replace with 'false' to prevent players logging in from receiving this message.
   notifyUserOnLogin: true
+  
+  # When /chpmodify is called properly, there is a delay until the command is automatically cancelled/expires.
+  # Default is '1200'.
+  # Change this value to anything you would like below.
+  customPollTimeout: 1200
 
 ChatPollsSound:
   # When a poll starts, a sound is played to all players currently logged in.

@@ -19,28 +19,33 @@ public class CHPInfo extends BasicCommand {
 
 	public boolean processCommand()
 	{
-		if (args.length == 0)
+		if (plugin.currentPolls.size() == 0)
 		{
-			sender.sendMessage(ChatColor.AQUA + MainChatPolls.pluginPrefix + " Not enough arguments!");
+			sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " There are no active polls!");
+			return true;
+		}
+		else if (args.length == 0)
+		{
+			sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Not enough arguments!");
+			sender.sendMessage(ChatColor.AQUA + "Available poll numbers:");
+			for (EachPoll eaPoll : plugin.currentPolls)
+			{
+				sender.sendMessage(ChatColor.AQUA + "- " + eaPoll.getNum());
+			}
 			return false;
 		}
 		else if (args.length > 1)
 		{
-			sender.sendMessage(ChatColor.AQUA + MainChatPolls.pluginPrefix + " Too many arguments!");
+			sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Too many arguments!");
 			return false;
 		}
-		else if (!args[0].chars().allMatch( Character::isDigit ) && args.length == 1) //check if first arg is a dig + exists
+		else if (args.length == 1 && !args[0].chars().allMatch( Character::isDigit )) //check if first arg is a dig + exists
 		{
-			sender.sendMessage(ChatColor.AQUA + MainChatPolls.pluginPrefix + " Please type the number of your desired poll after /chpvote, followed by the number of what option you would like.");
-			return true;
-		}
-		else if (MainChatPolls.currentPolls.size() == 0)
-		{
-			sender.sendMessage(ChatColor.AQUA + MainChatPolls.pluginPrefix + " There are no active polls!");
+			sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Please type the number of your desired poll after /chpvote, followed by the number of what option you would like.");
 			return true;
 		}
 		EachPoll currPoll = new EachPoll("","","","",-1);
-		for (EachPoll eaPoll : MainChatPolls.currentPolls)
+		for (EachPoll eaPoll : plugin.currentPolls)
 		{
 			if (eaPoll.getNum() == (Integer.parseInt(args[0])))
 			{
@@ -49,21 +54,21 @@ public class CHPInfo extends BasicCommand {
 		}
 		if (currPoll.getNum() == -1) //if no poll with that number was found
 		{
-			sender.sendMessage(ChatColor.AQUA + MainChatPolls.pluginPrefix + " There is no active poll with the number " + Integer.parseInt(args[0]) + "!");
+			sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " There is no active poll with the number " + Integer.parseInt(args[0]) + "!");
 			sender.sendMessage(ChatColor.AQUA + "Available poll numbers:");
-			for (EachPoll eaPoll : MainChatPolls.currentPolls)
+			for (EachPoll eaPoll : plugin.currentPolls)
 			{
 				sender.sendMessage(ChatColor.AQUA + "- " + eaPoll.getNum());
 			}
 		return true;
 		}
-		sender.sendMessage(ChatColor.AQUA + MainChatPolls.pluginPrefix + " Poll " + currPoll.getNum() + ":\nTitle: " +
-		currPoll.getTitle() + "\nDescription: " + currPoll.getDescription());
+		sender.sendMessage(plugin.colorize(ChatColor.AQUA + plugin.pluginPrefix + " Poll " + currPoll.getNum() + ":\nTitle: " +
+		currPoll.getTitle() + "\nDescription: " + currPoll.getDescription()));
 		for (EachOption eaOpp : currPoll.getOptions())
 		{
-			sender.sendMessage(ChatColor.AQUA + "" + eaOpp.getChoiceNumber() + ") " + eaOpp.getOptionName() + "\n");
+			sender.sendMessage(plugin.colorize(ChatColor.AQUA + "" + eaOpp.getChoiceNumber() + ") " + eaOpp.getOptionName() + "\n"));
 		}
-		sender.sendMessage(ChatColor.AQUA + "Created by " + currPoll.getCreator() + " on [" + currPoll.getTime() + "].");
+		sender.sendMessage(plugin.colorize(ChatColor.AQUA + "Created by " + currPoll.getCreator() + " on [" + currPoll.getTime() + "]."));
 	return true;
 	}
 }

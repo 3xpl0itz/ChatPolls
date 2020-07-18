@@ -25,27 +25,27 @@ public class CHPFinish extends BasicCommand {
 	{
 		if (args.length == 0)
 		{
-			sender.sendMessage(ChatColor.AQUA + MainChatPolls.pluginPrefix + " Not enough arguments!");
+			sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Not enough arguments!");
 			return false;
 		}
 		else if (args.length > 1)
 		{
-			sender.sendMessage(ChatColor.AQUA + MainChatPolls.pluginPrefix + " Too many arguments!");
+			sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Too many arguments!");
 			return false;
 		}
-		else if (!args[0].chars().allMatch( Character::isDigit ) && args.length == 1) //check if first arg is a dig + exists
+		else if (args.length == 1 && !args[0].chars().allMatch( Character::isDigit )) //check if first arg is a dig + exists
 		{
-			sender.sendMessage(ChatColor.AQUA + MainChatPolls.pluginPrefix + " Please type the number of your desired poll after /chpvote, followed by the number of what option you would like.");
+			sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Please type the number of your desired poll after /chpvote, followed by the number of what option you would like.");
 			return true;
 		}
-		else if (MainChatPolls.currentPolls.size() == 0)
+		else if (plugin.currentPolls.size() == 0)
 		{
-			sender.sendMessage(ChatColor.AQUA + MainChatPolls.pluginPrefix + " There are no active polls!");
+			sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " There are no active polls!");
 			return true;
 		}
 		int totalVotes = 0;
 		EachPoll finishedPoll = new EachPoll("","","","",-1);
-		for (EachPoll eaPoll : MainChatPolls.currentPolls) //find current poll, select it
+		for (EachPoll eaPoll : plugin.currentPolls) //find current poll, select it
 		{
 			if (eaPoll.getNum() == Integer.parseInt(args[0]))
 			{
@@ -54,7 +54,7 @@ public class CHPFinish extends BasicCommand {
 		}
 		if (finishedPoll.getNum() == -1)
 		{
-			sender.sendMessage(ChatColor.AQUA + MainChatPolls.pluginPrefix + " Poll " + args[0] + " is not an active poll :(.");
+			sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Poll " + args[0] + " is not an active poll :(.");
 			return true;
 		}
 		for (EachOption eaOpp : finishedPoll.getOptions())
@@ -67,19 +67,19 @@ public class CHPFinish extends BasicCommand {
 		{
 			if (totalVotes == 0) //avoid div by 0
 			{
-				sender.sendMessage(ChatColor.GOLD + "Nobody voted on the poll: " + finishedPoll.getTitle() + " :(.");
-				for (int i = 0; i < MainChatPolls.currentPolls.size(); i++)
+				sender.sendMessage(plugin.colorize(ChatColor.GOLD + "Nobody voted on the poll: " + finishedPoll.getTitle() + " :(."));
+				for (int i = 0; i < plugin.currentPolls.size(); i++)
 				{
-					if (MainChatPolls.currentPolls.get(i).getNum() == Integer.parseInt(args[0]))
+					if (plugin.currentPolls.get(i).getNum() == Integer.parseInt(args[0]))
 					{
-						MainChatPolls.currentPolls.remove(i); //cleanup previous poll
+						plugin.currentPolls.remove(i); //cleanup previous poll
 					}
 				}
 			return true;
 			}
-			p.sendMessage(ChatColor.GOLD + "The poll " + finishedPoll.getTitle() + " has finished!");
+			p.sendMessage(plugin.colorize(ChatColor.GOLD + "The poll " + finishedPoll.getTitle() + " has finished!"));
 			p.sendMessage(ChatColor.GOLD + "Results:");
-		
+			p.sendMessage(plugin.colorize(ChatColor.GOLD + "(Description: " + finishedPoll.getDescription() + ")"));
 			//Make a nice infographic for each user
 			for (EachOption eaOpp : finishedPoll.getOptions())
 			{
@@ -87,11 +87,11 @@ public class CHPFinish extends BasicCommand {
 				{
 					if (eaVote.getUsername().equals(p.getName()))
 					{
-						p.sendMessage(ChatColor.AQUA + "" + ChatColor.BOLD + "You voted for: " + eaOpp.getChoiceNumber() + ") " + eaOpp.getOptionName()
-						+ " - " + "(" + (double)(eaOpp.getNumVotes()/totalVotes)*100 + "%)");
+						p.sendMessage(plugin.colorize(ChatColor.AQUA + "" + ChatColor.BOLD + "You voted for: " + eaOpp.getChoiceNumber() + ") " + eaOpp.getOptionName()
+						+ " - " + "(" + (double)(eaOpp.getNumVotes()/totalVotes)*100 + "%)"));
 					}
 				}
-				p.sendMessage(ChatColor.AQUA + "" + eaOpp.getChoiceNumber() + ") "+ eaOpp.getOptionName() + " - "+ "(" + (double)(eaOpp.getNumVotes()/totalVotes)*100 + "%)");
+				p.sendMessage(plugin.colorize(ChatColor.AQUA + "" + eaOpp.getChoiceNumber() + ") "+ eaOpp.getOptionName() + " - "+ "(" + (double)(eaOpp.getNumVotes()/totalVotes)*100 + "%)"));
 			}
 			
 			//Get sound from config.yml!
@@ -112,15 +112,15 @@ public class CHPFinish extends BasicCommand {
 		}
 		if (badConfig) // :(
 		{
-			sender.sendMessage(ChatColor.AQUA + MainChatPolls.pluginPrefix + " Default blaze death sound was played because your config.yml has an invalid sound, or is corrupted."
+			sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Default blaze death sound was played because your config.yml has an invalid sound, or is corrupted."
 			+ "\nPlease fix this issue to get rid of this message.\nValid Sounds List: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html");
 		}
 
-		for (int i = 0; i < MainChatPolls.currentPolls.size(); i++)
+		for (int i = 0; i < plugin.currentPolls.size(); i++)
 		{
-			if (MainChatPolls.currentPolls.get(i).getNum() == Integer.parseInt(args[0]))
+			if (plugin.currentPolls.get(i).getNum() == Integer.parseInt(args[0]))
 			{
-				MainChatPolls.currentPolls.remove(i); //cleanup previous poll
+				plugin.currentPolls.remove(i); //cleanup previous poll
 			}
 		}
 		return true; //Done!
