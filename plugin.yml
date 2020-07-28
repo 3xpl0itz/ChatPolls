@@ -1,5 +1,5 @@
 name: ChatPolls
-version: 1.1
+version: 1.2
 description: Generate simple chat polls for Minecraft servers.
 api-version: 1.15
 author: 3xpl0itz
@@ -10,49 +10,55 @@ commands:
         aliases: [chatpollsversion]
         usage: /chpversion
         permission: chatpolls.chpversion
-        permission-message: You do not have permission to run this command.
+        permission-message: §4You do not have permission to run this command.
     chpstart:
         description: Starts a poll.
         aliases: [chatpollsstart]
-        usage: /chpstart <name> <description> <option1> <option2> (-clearchat)...
+        usage: /chpstart -t <title> -d <description> -o <option1> -o <option2> (-delay <timeInSeconds>) (-r) (-a) (-clearchat)...
         permission: chatpolls.chpstart
-        permission-message: You do not have permission to run this command.
+        permission-message: §4You do not have permission to run this command.
     chpvote:
         description: Votes on an active poll.
         aliases: [chatpollsvote]
         usage: /chpvote <pollNumber> <optionNumber>
-        permission: chatpolls.chpstart
-        permission-message: You do not have permission to run this command.
+        permission: chatpolls.chpvote
+        permission-message: §4You do not have permission to run this command.
+    chplist:
+        description: Lists all active polls.
+        aliases: [chatpollslist]
+        usage: /chplist
+        permission: chatpolls.chplist
+        permission-message: §4You do not have permission to run this command.
     chpinfo:
         description: Gets information on an active poll.
         aliases: [chatpollsinfo]
         usage: /chpinfo <pollNumber>
         permission: chatpolls.chpinfo
-        permission-message: You do not have permission to run this command.
+        permission-message: §4You do not have permission to run this command.
     chpmodify:
         description: Modifies an active poll.
         aliases: [chatpollsmodify]
         usage: /chpmodify <pollNumber>
         permission: chatpolls.chpmodify
-        permission-message: You do not have permission to run this command.
+        permission-message: §4You do not have permission to run this command.
     chpfinish:
         description: Ends an active poll.
         aliases: [chatpollsfinish]
         usage: /chpfinish <pollNumber>
         permission: chatpolls.chpfinish
-        permission-message: You do not have permission to run this command.
+        permission-message: §4You do not have permission to run this command.
     chptest:
         description: Tests a poll by sending it just to the sender.
         aliases: [chatpollstest]
-        usage: /chptest <name> <description> <option1> <option2> (-clearchat)...
+        usage: /chptest -t <title> -d <description> -o <option1> -o <option2> (-delay <timeInSeconds>) (-a) (-clearchat)...
         permission: chatpolls.chptest
-        permission-message: You do not have permission to run this command.
+        permission-message: §4You do not have permission to run this command.
     chpreload:
         description: Reloads ChatPolls's configuration files.
         aliases: [chatpollsreload]
         usage: /chpreload
         permission: chatpolls.chpreload
-        permission-message: You do not have permission to run this command.
+        permission-message: §4You do not have permission to run this command.
 permissions:
     chatpolls.*:
         description: Gives access to all ChatPolls commands.
@@ -60,6 +66,7 @@ permissions:
             chatpolls.chpversion: true
             chatpolls.chpstart: true
             chatpolls.chpvote: true
+            chatpolls.chplist: true
             chatpolls.chpinfo: true
             chatpolls.chpfinish: true
             chatpolls.chpreload: true
@@ -74,6 +81,9 @@ permissions:
         default: op
     chatpolls.chpvote:
         description: Votes on an active poll.
+        default: true
+    chatpolls.chplist:
+        description: Lists all active polls.
         default: true
     chatpolls.chpinfo:
         description: Gets information on an active poll.

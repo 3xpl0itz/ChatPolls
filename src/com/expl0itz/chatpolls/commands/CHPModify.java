@@ -4,16 +4,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.conversations.Conversable;
-import org.bukkit.conversations.Conversation;
-import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.ConversationFactory;
-import org.bukkit.conversations.FixedSetPrompt;
-import org.bukkit.conversations.Prompt;
-import org.bukkit.conversations.StringPrompt;
 import org.bukkit.entity.Player;
 
 import com.expl0itz.chatpolls.MainChatPolls;
-import com.expl0itz.chatpolls.conversations.CHPStartModifyProcessPrompt;
+import com.expl0itz.chatpolls.conversations.CHPModifyStartProcessPrompt;
 import com.expl0itz.chatpolls.util.EachPoll;
 
 public class CHPModify extends BasicCommand {
@@ -21,7 +16,6 @@ public class CHPModify extends BasicCommand {
 	public CHPModify(CommandSender sender, Command command, String label, String[] args, MainChatPolls plugin) 
 	{
 		super(sender, command, label, args, plugin);
-		// TODO Auto-generated constructor stub
 	}
 	
 	public boolean processCommand()
@@ -46,7 +40,7 @@ public class CHPModify extends BasicCommand {
 			sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " There are no active polls!");
 			return true;
 		}
-		EachPoll currPoll = new EachPoll("","","","",-1);
+		EachPoll currPoll = new EachPoll("","","","",-1,true,null);
 		for (EachPoll eaPoll : plugin.currentPolls)
 		{
 			if (eaPoll.getNum() == (Integer.parseInt(args[0]))) //create a clone to avoid modifying the original poll yet
@@ -64,11 +58,11 @@ public class CHPModify extends BasicCommand {
 			}
 			return true;
 		}
-		
-		//Conversations API :)
+		sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Entered the poll command editor.");
+		Player inPlayer = (Player)sender;
 		ConversationFactory cf = new ConversationFactory(plugin)
 				.withModality(true)
-				.withFirstPrompt(new CHPStartModifyProcessPrompt(plugin, currPoll))
+				.withFirstPrompt(new CHPModifyStartProcessPrompt(plugin, currPoll, inPlayer))
 				.withTimeout(1200) 
 				.thatExcludesNonPlayersWithMessage("Go away evil console!");
 		try 
@@ -80,16 +74,9 @@ public class CHPModify extends BasicCommand {
 			sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Default 1200 second was enabled because your config is corrupted."
 					+ "\nPlease fix this issue to get rid of this message. Continuing...");
 		}
-		if (sender instanceof Conversable) //just in case
-		{
-			cf.buildConversation((Conversable)sender).begin();
-		}
-		else
-		{
-			return false;
-		}
+		cf.buildConversation((Conversable)sender).begin();
 		sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Exited the poll editor.");
 		return true;
 	}
-
+	
 }

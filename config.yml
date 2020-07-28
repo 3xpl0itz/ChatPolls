@@ -23,7 +23,7 @@ ChatPollsGeneral:
   # Replace with 'false' to prevent players logging in from receiving this message.
   notifyUserOnLogin: true
   
-  # When /chpmodify is called properly, there is a delay until the command is automatically cancelled/expires.
+  # When /chpmodify is called, there is a delay until the conversation (command) is automatically cancelled/expires.
   # Default is '1200'.
   # Change this value to anything you would like below.
   customPollTimeout: 1200

@@ -7,19 +7,19 @@ import org.bukkit.conversations.Prompt;
 
 import com.expl0itz.chatpolls.MainChatPolls;
 
-public class CHPModifyExitMessage extends MessagePrompt {
+public class CHPStartExitPrompt extends MessagePrompt {
 
-	public final MainChatPolls plugin;
+	private MainChatPolls plugin;
 	
-	public CHPModifyExitMessage(MainChatPolls plugin)
+	public CHPStartExitPrompt(MainChatPolls plugin)
 	{
 		this.plugin = plugin;
 	}
 	
 	@Override
-	public String getPromptText(ConversationContext context) 
+	public String getPromptText(ConversationContext arg0) 
 	{
-		return ChatColor.AQUA + plugin.pluginPrefix + " Exited the poll editor.";
+		return ChatColor.AQUA + plugin.pluginPrefix + " Exited the rewards editor.";
 	}
 
 	@Override
@@ -28,8 +28,5 @@ public class CHPModifyExitMessage extends MessagePrompt {
 		return Prompt.END_OF_CONVERSATION;
 	}
 
-	
-
-	
 	
 }

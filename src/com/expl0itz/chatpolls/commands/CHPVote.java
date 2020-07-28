@@ -1,7 +1,6 @@
 package com.expl0itz.chatpolls.commands;
 
-import java.math.BigInteger;
-
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -46,7 +45,7 @@ public class CHPVote extends BasicCommand{
 			return true;
 		}
 		//Find poll user selected
-		EachPoll selectedPoll = new EachPoll("","","","",-1);
+		EachPoll selectedPoll = new EachPoll("","","","",-1,true,null);
 		for (EachPoll eaPoll : plugin.currentPolls)
 		{
 			if (eaPoll.getNum() == Integer.parseInt(args[0]))
@@ -59,7 +58,12 @@ public class CHPVote extends BasicCommand{
 			sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Poll " + args[0] + " is not an active poll :(.");
 			return true;
 		}
-		if ((args.length == 1) && (selectedPoll.getNum() == Integer.parseInt(args[0])))
+		else if (!selectedPoll.allowsVoting())
+		{
+			sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Poll " + args[0] + " cannot be voted on yet :(.");
+			return true;
+		}
+		else if ((args.length == 1) && (selectedPoll.getNum() == Integer.parseInt(args[0])))
 		{
 			sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Options for poll " + selectedPoll.getNum() + ":" + "\n");
 			for (EachOption eaOpp : selectedPoll.getOptions())
@@ -122,6 +126,14 @@ public class CHPVote extends BasicCommand{
 			{
 				eaOption.addVote((eaOption.getOptionName()), sender.getName());
 				sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " If your vote was valid, it was successfully added.");
+				if (selectedPoll.getRewards().size() > 0) //dispense rewards :)
+				{
+					for (String eaReward : selectedPoll.getRewards())
+					{
+						String outCommand = eaReward.replaceAll("%PLAYER%", sender.getName()); //don't replace %PLAYER% yet
+						plugin.getServer().dispatchCommand(Bukkit.getConsoleSender(), outCommand);
+					}
+				}
 			}
 		}
 	return true;

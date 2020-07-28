@@ -1,7 +1,5 @@
 package com.expl0itz.chatpolls.commands;
 
-import java.math.BigInteger;
-
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -44,7 +42,7 @@ public class CHPInfo extends BasicCommand {
 			sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Please type the number of your desired poll after /chpvote, followed by the number of what option you would like.");
 			return true;
 		}
-		EachPoll currPoll = new EachPoll("","","","",-1);
+		EachPoll currPoll = new EachPoll("","","","",-1,true,null);
 		for (EachPoll eaPoll : plugin.currentPolls)
 		{
 			if (eaPoll.getNum() == (Integer.parseInt(args[0])))
@@ -60,7 +58,7 @@ public class CHPInfo extends BasicCommand {
 			{
 				sender.sendMessage(ChatColor.AQUA + "- " + eaPoll.getNum());
 			}
-		return true;
+			return true;
 		}
 		sender.sendMessage(plugin.colorize(ChatColor.AQUA + plugin.pluginPrefix + " Poll " + currPoll.getNum() + ":\nTitle: " +
 		currPoll.getTitle() + "\nDescription: " + currPoll.getDescription()));

@@ -1,23 +1,16 @@
 package com.expl0itz.chatpolls;
 
-import java.io.File;
 import java.util.ArrayList;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.expl0itz.chatpolls.commands.CHPFinish;
 import com.expl0itz.chatpolls.commands.CHPInfo;
+import com.expl0itz.chatpolls.commands.CHPList;
 import com.expl0itz.chatpolls.commands.CHPModify;
 import com.expl0itz.chatpolls.commands.CHPReload;
 import com.expl0itz.chatpolls.commands.CHPStart;
@@ -26,24 +19,23 @@ import com.expl0itz.chatpolls.commands.CHPVote;
 import com.expl0itz.chatpolls.event.CHPEventHandler;
 import com.expl0itz.chatpolls.util.CHPConfigHandler;
 import com.expl0itz.chatpolls.util.CHPUpdateChecker;
-import com.expl0itz.chatpolls.util.EachOption;
 import com.expl0itz.chatpolls.util.EachPoll;
 
 public class MainChatPolls extends JavaPlugin
 {
 	public String pluginPrefix = colorize("[ChP]");
-	public Double pluginVersion = 1.1; //Double instead of prim type so we can set to null
+	public Double pluginVersion = 1.2; //Double instead of prim type so we can set to null
 	public ArrayList<EachPoll> currentPolls = new ArrayList<>();
 	
 	//OnEnable
 	@Override
 	public void onEnable()
 	{
-		//EventHandler
-		getServer().getPluginManager().registerEvents(new CHPEventHandler(this), this);
-		
 		//New Config Object
 		CHPConfigHandler CHPConfig = new CHPConfigHandler(this); 
+		
+		//EventHandler
+		getServer().getPluginManager().registerEvents(new CHPEventHandler(this), this);
 		
 		//Load Config
 		CHPConfig.loadConfiguration();
@@ -86,7 +78,7 @@ public class MainChatPolls extends JavaPlugin
 	@Override
 	public void onDisable()
 	{
-		getLogger().info("Disabling ChatPolls version " + pluginVersion + "...");
+		getLogger().info("Disabled ChatPolls version " + pluginVersion + ".");
 		//Disable any static args with = null here to deal with /reload properly
 	}
 	
@@ -99,6 +91,11 @@ public class MainChatPolls extends JavaPlugin
 		}
 		else if (command.getName().equalsIgnoreCase("chpstart"))
 		{
+			if (sender instanceof ConsoleCommandSender)
+			{
+				sender.sendMessage("Please don't run this command in console.");
+				return true;
+			}
 			CHPStart chpstart = new CHPStart(sender, command, label, args, this);
 			return chpstart.processCommand();
 		}
@@ -111,6 +108,11 @@ public class MainChatPolls extends JavaPlugin
 			}
 			CHPVote chpvote = new CHPVote(sender, command, label, args, this);
 			return chpvote.processCommand();
+		}
+		else if (command.getName().equalsIgnoreCase("chplist"))
+		{
+			CHPList chplist = new CHPList(sender, command, label, args, this);
+			return chplist.processCommand();
 		}
 		else if (command.getName().equalsIgnoreCase("chpinfo"))
 		{
@@ -139,6 +141,11 @@ public class MainChatPolls extends JavaPlugin
 		}
 		else if (command.getName().equalsIgnoreCase("chptest"))
 		{
+			if (sender instanceof ConsoleCommandSender)
+			{
+				sender.sendMessage("Please don't run this command in console.");
+				return true;
+			}
 			CHPTest chptest = new CHPTest(sender, command, label, args, this);
 			return chptest.processCommand();
 		}

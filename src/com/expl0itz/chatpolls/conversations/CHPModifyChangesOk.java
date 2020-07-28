@@ -1,8 +1,5 @@
 package com.expl0itz.chatpolls.conversations;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import org.bukkit.ChatColor;
 import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.Prompt;
@@ -45,7 +42,7 @@ public class CHPModifyChangesOk extends StringPrompt{
 					eaPoll = currPoll;
 				}
 			}
-			return new CHPStartModifyProcessPrompt(plugin, currPoll); //back to the beginning
+			return new CHPModifyStartProcessPrompt(plugin, currPoll); //back to the beginning
 		}
 		return new CHPModifyExitMessage(plugin);
 	}

@@ -1,7 +1,5 @@
 package com.expl0itz.chatpolls.util;
 
-import org.bukkit.command.CommandSender;
-
 import com.expl0itz.chatpolls.MainChatPolls;
 
 public class CHPConfigHandler {

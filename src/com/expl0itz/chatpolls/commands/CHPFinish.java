@@ -1,6 +1,6 @@
 package com.expl0itz.chatpolls.commands;
 
-import java.math.BigInteger;
+import java.text.DecimalFormat;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -44,7 +44,7 @@ public class CHPFinish extends BasicCommand {
 			return true;
 		}
 		int totalVotes = 0;
-		EachPoll finishedPoll = new EachPoll("","","","",-1);
+		EachPoll finishedPoll = new EachPoll("","","","",-1,true,null);
 		for (EachPoll eaPoll : plugin.currentPolls) //find current poll, select it
 		{
 			if (eaPoll.getNum() == Integer.parseInt(args[0]))
@@ -54,7 +54,7 @@ public class CHPFinish extends BasicCommand {
 		}
 		if (finishedPoll.getNum() == -1)
 		{
-			sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Poll " + args[0] + " is not an active poll :(.");
+			sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Poll " + args[0] + " is not a valid poll :(.");
 			return true;
 		}
 		for (EachOption eaOpp : finishedPoll.getOptions())
@@ -80,7 +80,9 @@ public class CHPFinish extends BasicCommand {
 			p.sendMessage(plugin.colorize(ChatColor.GOLD + "The poll " + finishedPoll.getTitle() + " has finished!"));
 			p.sendMessage(ChatColor.GOLD + "Results:");
 			p.sendMessage(plugin.colorize(ChatColor.GOLD + "(Description: " + finishedPoll.getDescription() + ")"));
+			
 			//Make a nice infographic for each user
+			DecimalFormat twoDecPlaces = new DecimalFormat("##.##");
 			for (EachOption eaOpp : finishedPoll.getOptions())
 			{
 				for (EachVote eaVote : eaOpp.getVotes())
@@ -88,10 +90,10 @@ public class CHPFinish extends BasicCommand {
 					if (eaVote.getUsername().equals(p.getName()))
 					{
 						p.sendMessage(plugin.colorize(ChatColor.AQUA + "" + ChatColor.BOLD + "You voted for: " + eaOpp.getChoiceNumber() + ") " + eaOpp.getOptionName()
-						+ " - " + "(" + (double)(eaOpp.getNumVotes()/totalVotes)*100 + "%)"));
+						+ " - " + "(" + twoDecPlaces.format((((double)eaOpp.getNumVotes()/(double)totalVotes))*100) + "%)"));
 					}
 				}
-				p.sendMessage(plugin.colorize(ChatColor.AQUA + "" + eaOpp.getChoiceNumber() + ") "+ eaOpp.getOptionName() + " - "+ "(" + (double)(eaOpp.getNumVotes()/totalVotes)*100 + "%)"));
+				p.sendMessage(plugin.colorize(ChatColor.AQUA + "" + eaOpp.getChoiceNumber() + ") "+ eaOpp.getOptionName() + " - "+ "(" + twoDecPlaces.format(((double)eaOpp.getNumVotes()/(double)totalVotes)*100) + "%)"));
 			}
 			
 			//Get sound from config.yml!
@@ -110,7 +112,7 @@ public class CHPFinish extends BasicCommand {
 				}
 			}
 		}
-		if (badConfig) // :(
+		if (badConfig)
 		{
 			sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Default blaze death sound was played because your config.yml has an invalid sound, or is corrupted."
 			+ "\nPlease fix this issue to get rid of this message.\nValid Sounds List: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html");

@@ -4,7 +4,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.NumericPrompt;
 import org.bukkit.conversations.Prompt;
-import org.bukkit.conversations.StringPrompt;
 
 import com.expl0itz.chatpolls.MainChatPolls;
 import com.expl0itz.chatpolls.util.EachOption;
