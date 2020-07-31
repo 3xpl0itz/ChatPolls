@@ -20,11 +20,14 @@ import com.expl0itz.chatpolls.event.CHPEventHandler;
 import com.expl0itz.chatpolls.util.CHPConfigHandler;
 import com.expl0itz.chatpolls.util.CHPUpdateChecker;
 import com.expl0itz.chatpolls.util.EachPoll;
+import com.expl0itz.chatpolls.util.Metrics;
 
 public class MainChatPolls extends JavaPlugin
 {
+	public int pluginId = 81542;
+	public int bstatsId = 8360;
 	public String pluginPrefix = colorize("[ChP]");
-	public Double pluginVersion = 1.2; //Double instead of prim type so we can set to null
+	public Double pluginVersion = 1.21; //Double instead of prim type so we can set to null
 	public ArrayList<EachPoll> currentPolls = new ArrayList<>();
 	
 	//OnEnable
@@ -43,7 +46,7 @@ public class MainChatPolls extends JavaPlugin
 		//Update Checker (decent, finally)
 		try 
 		{
-			new CHPUpdateChecker(this, 81542).getVersion(version -> //int = Spigot ID
+			new CHPUpdateChecker(this, pluginId).getVersion(version -> //int = Spigot ID
 			{
 				if (Double.parseDouble(this.getDescription().getVersion()) <= pluginVersion) //convert to double
 				{
@@ -63,11 +66,24 @@ public class MainChatPolls extends JavaPlugin
 		//Load Prefix from Config
 		try
 		{
-			pluginPrefix = getConfig().getString("ChatPollsGeneral.prefixName");
+			pluginPrefix = colorize(getConfig().getString("ChatPollsGeneral.prefixName"));
 		}
 		catch (Exception e)
 		{
 			getLogger().info("Error reading ChatPollsGeneral.prefixName from your config.plist. \nPlease fix this manually, or re-generate your config. Using default prefix.");
+		}
+		
+		//BStats!
+		try
+		{
+			if (getConfig().getBoolean("ChatPollsGeneral.enablebStats"))
+			{
+				Metrics metrics = new Metrics(this, bstatsId);
+			}
+		}
+		catch (Exception e)
+		{
+			getLogger().info("Error reading ChatPollsGeneral.enablebStats from your config.plist. \nPlease fix this manually, or re-generate your config. Using default prefix.");
 		}
 		
 		//We made it!
@@ -82,6 +98,7 @@ public class MainChatPolls extends JavaPlugin
 		//Disable any static args with = null here to deal with /reload properly
 	}
 	
+	//List of Commands
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
 	{
 		if (command.getName().equalsIgnoreCase("chpversion"))

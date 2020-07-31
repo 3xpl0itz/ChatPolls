@@ -36,7 +36,7 @@ public class CHPStartListPrompt extends MessagePrompt{
 		}
 		else
 		{
-			output += "There are no commands set for this poll.";
+			output += " There are no commands set for this poll.";
 		}
 		return output;
 	}

@@ -19,6 +19,7 @@ public class CHPConfigHandler {
 		String prefixName = "ChatPollsGeneral.prefixName";
 		String notifyActivePollLogin = "ChatPollsGeneral.notifyUserOnLogin";
 		String customPollTimeout = "ChatPollsGeneral.customPollTimeout";
+		String enablebStats = "ChatPollsGeneral.enablebStats";
 		
 		//Sounds
 		String pollStartSound = "ChatPollsSound.StartPoll"; //Start Poll Sound
@@ -28,6 +29,7 @@ public class CHPConfigHandler {
 		plugin.getConfig().addDefault(prefixName, "[ChP]");
 		plugin.getConfig().addDefault(notifyActivePollLogin, true);
 		plugin.getConfig().addDefault(customPollTimeout, 1200);
+		plugin.getConfig().addDefault(enablebStats, true);
 		plugin.getConfig().addDefault(pollStartSound, "BLOCK_ANVIL_LAND");
 		plugin.getConfig().addDefault(pollEndSound, "ENTITY_BLAZE_DEATH");
 		plugin.getConfig().options().copyDefaults(true); //append new val pairs to an existing config.yml

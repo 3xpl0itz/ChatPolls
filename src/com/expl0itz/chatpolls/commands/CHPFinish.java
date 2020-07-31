@@ -117,7 +117,7 @@ public class CHPFinish extends BasicCommand {
 			sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Default blaze death sound was played because your config.yml has an invalid sound, or is corrupted."
 			+ "\nPlease fix this issue to get rid of this message.\nValid Sounds List: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html");
 		}
-
+		
 		for (int i = 0; i < plugin.currentPolls.size(); i++)
 		{
 			if (plugin.currentPolls.get(i).getNum() == Integer.parseInt(args[0]))

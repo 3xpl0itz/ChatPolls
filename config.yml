@@ -27,6 +27,11 @@ ChatPollsGeneral:
   # Default is '1200'.
   # Change this value to anything you would like below.
   customPollTimeout: 1200
+  
+  # Enable or disable bStats.
+  # Default is 'true'.
+  # Change this value to 'false' to disable bStats :(.
+  enablebStats: true
 
 ChatPollsSound:
   # When a poll starts, a sound is played to all players currently logged in.
