@@ -1,12 +1,15 @@
 package com.expl0itz.chatpolls;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitTask;
 
 import com.expl0itz.chatpolls.commands.CHPFinish;
 import com.expl0itz.chatpolls.commands.CHPInfo;
@@ -18,73 +21,27 @@ import com.expl0itz.chatpolls.commands.CHPTest;
 import com.expl0itz.chatpolls.commands.CHPVote;
 import com.expl0itz.chatpolls.event.CHPEventHandler;
 import com.expl0itz.chatpolls.util.CHPConfigHandler;
-import com.expl0itz.chatpolls.util.CHPUpdateChecker;
 import com.expl0itz.chatpolls.util.EachPoll;
-import com.expl0itz.chatpolls.util.Metrics;
 
 public class MainChatPolls extends JavaPlugin
 {
 	public int pluginId = 81542;
 	public int bstatsId = 8360;
+	public double pluginVersion = 1.3;
 	public String pluginPrefix = colorize("[ChP]");
-	public Double pluginVersion = 1.21; //Double instead of prim type so we can set to null
-	public ArrayList<EachPoll> currentPolls = new ArrayList<>();
+	public ArrayList<EachPoll> currentPolls = new ArrayList<>(); //all active polls
+	public Set<BukkitTask> backgroundTasks = new HashSet<BukkitTask>(); //all background tasks that should be cancelled at some point (like during reload) or recorded
 	
 	//OnEnable
 	@Override
 	public void onEnable()
 	{
-		//New Config Object
+		//Load config + vals
 		CHPConfigHandler CHPConfig = new CHPConfigHandler(this); 
+		CHPConfig.loadConfiguration();
 		
 		//EventHandler
 		getServer().getPluginManager().registerEvents(new CHPEventHandler(this), this);
-		
-		//Load Config
-		CHPConfig.loadConfiguration();
-		
-		//Update Checker (decent, finally)
-		try 
-		{
-			new CHPUpdateChecker(this, pluginId).getVersion(version -> //int = Spigot ID
-			{
-				if (Double.parseDouble(this.getDescription().getVersion()) <= pluginVersion) //convert to double
-				{
-					getLogger().info("No new update available.");
-				}
-				else
-				{
-					getLogger().info("There is a new update available! (Current version: " + pluginVersion + ", New version: " + version + ".)");
-				}
-			});
-		}
-		catch (Exception e)
-		{
-			getLogger().info("Unhandled exception while checking for updates. Please try again later.");
-		}
-		
-		//Load Prefix from Config
-		try
-		{
-			pluginPrefix = colorize(getConfig().getString("ChatPollsGeneral.prefixName"));
-		}
-		catch (Exception e)
-		{
-			getLogger().info("Error reading ChatPollsGeneral.prefixName from your config.plist. \nPlease fix this manually, or re-generate your config. Using default prefix.");
-		}
-		
-		//BStats!
-		try
-		{
-			if (getConfig().getBoolean("ChatPollsGeneral.enablebStats"))
-			{
-				Metrics metrics = new Metrics(this, bstatsId);
-			}
-		}
-		catch (Exception e)
-		{
-			getLogger().info("Error reading ChatPollsGeneral.enablebStats from your config.plist. \nPlease fix this manually, or re-generate your config. Using default prefix.");
-		}
 		
 		//We made it!
 		getLogger().info("Enabled ChatPolls version " + pluginVersion + "."); 
@@ -94,8 +51,19 @@ public class MainChatPolls extends JavaPlugin
 	@Override
 	public void onDisable()
 	{
+		cancelBackgroundTasks();
 		getLogger().info("Disabled ChatPolls version " + pluginVersion + ".");
 		//Disable any static args with = null here to deal with /reload properly
+	}
+	
+	//Cancel all active background tasks, useful for /chpreload and onDisable()
+	public void cancelBackgroundTasks()
+	{
+		for (BukkitTask task : backgroundTasks) 
+		{
+			task.cancel();
+		}
+		backgroundTasks.clear();
 	}
 	
 	//List of Commands

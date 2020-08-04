@@ -1,4 +1,4 @@
-# ChatPoll's Configuration File
+# ChatPolls's Configuration File
 #
 #     ________          __  ____        ____    
 #    / ____/ /_  ____ _/ /_/ __ \____  / / /____
@@ -10,7 +10,7 @@
 # ChatPollsGeneral is the section dedicated to all of ChatPolls's general configurable settings.
 # ChatPollsSound is the section dedicated to all of ChatPolls's configurable sounds.
 # NOTICE: If some of the settings here are unorganized or corrupted, you can
-# always regenerate the configuration by deleting ChatPolls's data folder + config.yml.
+# always regenerate the configuration by deleting ChatPolls's data folder/config.yml.
 
 ChatPollsGeneral:
 
@@ -23,7 +23,7 @@ ChatPollsGeneral:
   # Replace with 'false' to prevent players logging in from receiving this message.
   notifyUserOnLogin: true
   
-  # When /chpmodify is called, there is a delay until the conversation (command) is automatically cancelled/expires.
+  # When a conversation is called (by any command such as /chpstart and /chpmodify), there is a delay until the conversation (command) is automatically cancelled/expires.
   # Default is '1200'.
   # Change this value to anything you would like below.
   customPollTimeout: 1200
@@ -32,14 +32,28 @@ ChatPollsGeneral:
   # Default is 'true'.
   # Change this value to 'false' to disable bStats :(.
   enablebStats: true
+  
+  # Set a delay for when the ChatPolls update checker should run.
+  # After the amount of seconds you specify, the update checker will check Spigot for updates.
+  # Default is '86400'.
+  # Set to '0' or below to never run the update checker :(.
+  updateCheckerDelay: 86400
 
 ChatPollsSound:
+
   # When a poll starts, a sound is played to all players currently logged in.
   # Default sound is 'BLOCK_ANVIL_LAND'.
   # You can either choose a different sound from this list (in all caps):
   # https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html
   # Or, you can simply type 'None' to have no sound played to online players.
   StartPoll: BLOCK_ANVIL_LAND
+
+  # When a poll starts, a sound is played to all players currently logged in.
+  # Default sound is 'BLOCK_ANVIL_LAND'.
+  # You can either choose a different sound from this list (in all caps):
+  # https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html
+  # Or, you can simply type 'None' to have no sound played to online players.
+  VotePoll: ENTITY_PLAYER_LEVELUP
 
   # When a poll ends, a sound is played to all players currently logged in.
   # Default sound is 'ENTITY_BLAZE_DEATH'.

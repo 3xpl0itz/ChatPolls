@@ -2,8 +2,10 @@ package com.expl0itz.chatpolls.commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import com.expl0itz.chatpolls.MainChatPolls;
 import com.expl0itz.chatpolls.util.EachOption;
@@ -44,6 +46,7 @@ public class CHPVote extends BasicCommand{
 			sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Please type the number of your desired poll after /chpvote, followed by the number of what option you would like.");
 			return true;
 		}
+		
 		//Find poll user selected
 		EachPoll selectedPoll = new EachPoll("","","","",-1,true,null);
 		for (EachPoll eaPoll : plugin.currentPolls)
@@ -120,12 +123,27 @@ public class CHPVote extends BasicCommand{
 		}
 					
 		//User has never voted + their vote is valid; add their vote
+		Player p = (Player) sender;
 		for (EachOption eaOption : selectedPoll.getOptions())
 		{
 			if (eaOption.getChoiceNumber() == Integer.parseInt(args[1]))
 			{
 				eaOption.addVote((eaOption.getOptionName()), sender.getName());
 				sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " If your vote was valid, it was successfully added.");
+				if (!(plugin.getConfig().getString("ChatPollsSound.StartPoll")).equalsIgnoreCase("None")) //if user does not put none in config, play something
+    			{
+    				//Get user-defined sound
+    				try 
+    				{
+    					p.playSound(p.getLocation(),Sound.valueOf(plugin.getConfig().getString("ChatPollsSound.VotePoll")), 10, 1);
+    				} 
+    				catch (Exception e) //User defined an illegal sound :(
+    				{
+    					p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 10, 1);
+    					p.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Default player level up sound was played because your config.yml has an invalid sound, or is corrupted."
+    					+ "\nPlease fix this issue to get rid of this message.\nValid Sounds List: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html");
+    				}
+    			}
 				if (selectedPoll.getRewards().size() > 0) //dispense rewards :)
 				{
 					for (String eaReward : selectedPoll.getRewards())

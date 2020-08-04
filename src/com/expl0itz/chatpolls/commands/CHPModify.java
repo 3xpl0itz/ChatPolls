@@ -8,7 +8,7 @@ import org.bukkit.conversations.ConversationFactory;
 import org.bukkit.entity.Player;
 
 import com.expl0itz.chatpolls.MainChatPolls;
-import com.expl0itz.chatpolls.conversations.CHPModifyStartProcessPrompt;
+import com.expl0itz.chatpolls.conversations.chpmodify.CHPModifyStartProcessPrompt;
 import com.expl0itz.chatpolls.util.EachPoll;
 
 public class CHPModify extends BasicCommand {
@@ -58,6 +58,7 @@ public class CHPModify extends BasicCommand {
 			}
 			return true;
 		}
+		
 		sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Entered the poll command editor.");
 		Player inPlayer = (Player)sender;
 		ConversationFactory cf = new ConversationFactory(plugin)

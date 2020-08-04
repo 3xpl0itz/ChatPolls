@@ -60,6 +60,7 @@ public class CHPInfo extends BasicCommand {
 			}
 			return true;
 		}
+		
 		sender.sendMessage(plugin.colorize(ChatColor.AQUA + plugin.pluginPrefix + " Poll " + currPoll.getNum() + ":\nTitle: " +
 		currPoll.getTitle() + "\nDescription: " + currPoll.getDescription()));
 		for (EachOption eaOpp : currPoll.getOptions())

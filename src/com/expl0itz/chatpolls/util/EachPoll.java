@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class EachPoll {
 
-	//Multiple Poll Support :)
+	//Multiple Polls Support :)
 	private String title, description, creator, time = "";
 	private int currNum = 1;
 	private boolean isVotable = false;
