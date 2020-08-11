@@ -31,24 +31,19 @@ public class CHPVote extends BasicCommand{
 			sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Not enough arguments supplied.");
 			return false;
 		}
+		else if ((args.length == 1 || args.length == 2) && (!args[0].chars().allMatch( Character::isDigit ))) //check if first arg is a dig + exists
+		{
+			sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Please type the number of your desired poll after /chpvote, followed by the number of what option you would like.");
+			return false;
+		}
 		else if (plugin.currentPolls.size() == 0)
 		{
 			sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " There are no active polls!");
 		    return true;
 		}
-		else if (args.length == 1 && (!args[0].chars().allMatch( Character::isDigit ))) //check if first arg is a dig + exists
-		{
-			sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Please type the number of your desired poll after /chpvote, followed by the number of what option you would like.");
-			return true;
-		}
-		else if ((args.length == 2 && ((!args[0].chars().allMatch( Character::isDigit )) || !args[1].chars().allMatch( Character::isDigit )))) //check if first arg is a dig (not negative as well!) + exists
-		{
-			sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Please type the number of your desired poll after /chpvote, followed by the number of what option you would like.");
-			return true;
-		}
 		
 		//Find poll user selected
-		EachPoll selectedPoll = new EachPoll("","","","",-1,true,null);
+		EachPoll selectedPoll = new EachPoll("","","","",0,-1,true,false,false,null);
 		for (EachPoll eaPoll : plugin.currentPolls)
 		{
 			if (eaPoll.getNum() == Integer.parseInt(args[0]))

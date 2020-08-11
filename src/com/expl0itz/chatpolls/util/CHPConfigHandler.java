@@ -117,6 +117,7 @@ public class CHPConfigHandler {
 		{
 			if (plugin.getConfig().getBoolean("ChatPollsGeneral.enablebStats"))
 			{
+				@SuppressWarnings("unused")
 				Metrics metrics = new Metrics(plugin, plugin.bstatsId);
 			}
 		}

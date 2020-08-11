@@ -45,7 +45,7 @@ public class CHPFinish extends BasicCommand {
 		}
 		
 		int totalVotes = 0;
-		EachPoll finishedPoll = new EachPoll("","","","",-1,true,null);
+		EachPoll finishedPoll = new EachPoll("","","","",0,-1,true,false,false,null);
 		for (EachPoll eaPoll : plugin.currentPolls) //find current poll, select it
 		{
 			if (eaPoll.getNum() == Integer.parseInt(args[0]))

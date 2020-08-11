@@ -57,7 +57,7 @@ public class CHPModifyChangesOk extends StringPrompt{
 			out += (plugin.colorize(ChatColor.AQUA + "" + eaOpp.getChoiceNumber() + ") " + eaOpp.getOptionName() + "\n"));
 		}
 		out += (plugin.colorize(ChatColor.AQUA + "Created by " + currPoll.getCreator() + " on [" + currPoll.getTime() + "]."));
-		return out + "\nIs this okay? ('Y' for yes and quit, 'N' for change something else, anything else to quit)";
+		return out + "\nIs this okay? ('Y' for save and quit, 'N' to save and change something else, anything else to quit)";
 	}
 
 }

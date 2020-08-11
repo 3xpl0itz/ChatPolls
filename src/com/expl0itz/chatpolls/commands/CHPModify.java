@@ -40,7 +40,7 @@ public class CHPModify extends BasicCommand {
 			sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " There are no active polls!");
 			return true;
 		}
-		EachPoll currPoll = new EachPoll("","","","",-1,true,null);
+		EachPoll currPoll = new EachPoll("","","","",0,-1,true,false,false,null);
 		for (EachPoll eaPoll : plugin.currentPolls)
 		{
 			if (eaPoll.getNum() == (Integer.parseInt(args[0]))) //create a clone to avoid modifying the original poll yet

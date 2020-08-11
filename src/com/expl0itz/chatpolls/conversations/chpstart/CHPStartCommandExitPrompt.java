@@ -19,7 +19,7 @@ public class CHPStartCommandExitPrompt extends MessagePrompt{
 	@Override
 	public String getPromptText(ConversationContext context) 
 	{
-		return ChatColor.AQUA + plugin.pluginPrefix + " Cancelling poll creation...";
+		return ChatColor.AQUA + plugin.pluginPrefix + " Exiting poll creator...";
 	}
 
 	@Override

@@ -7,19 +7,26 @@ public class EachPoll {
 	//Multiple Polls Support :)
 	private String title, description, creator, time = "";
 	private int currNum = 1;
+	private int delay = 0;
+	private boolean clearChat = false;
 	private boolean isVotable = false;
+	private boolean hasRewards = false;
 	private ArrayList<EachOption> allOpps = new ArrayList<>();
 	private ArrayList<String> allRewards = new ArrayList<>();
 	
-	public EachPoll(String t, String d, String c, String time, int curr, boolean isVotable, ArrayList<String> allr)
+	public EachPoll(String title, String description, String creator, String time, int delay, int currNum, 
+			boolean isVotable, boolean hasRewards, boolean clearChat, ArrayList<String> allRewards)
 	{
-		title = t;
-		description = d;
-		creator = c;
+		this.title = title;
+		this.description = description;
+		this.creator = creator;
 		this.time = time;
 		this.isVotable = isVotable;
-		currNum = curr;
-		allRewards = allr;
+		this.currNum = currNum;
+		this.delay = delay;
+		this.clearChat = clearChat;
+		this.hasRewards = hasRewards;
+		this.allRewards = allRewards;
 	}
 	
 	public void addOptions(EachOption eaOpp)
@@ -47,19 +54,29 @@ public class EachPoll {
 		time = t;
 	}
 	
-	public void setVotableTrue()
+	public void setDelay(int d)
 	{
-		isVotable = true;
+		delay = d;
 	}
 	
-	public void setVotableFalse()
+	public void toggleVotable(boolean isVotable)
 	{
-		isVotable = false;
+		this.isVotable = isVotable;
+	}
+	
+	public void toggleClearChat(boolean clearChat)
+	{
+		this.clearChat = clearChat;
 	}
 	
 	public void setNumber(int i)
 	{
 		currNum = i;
+	}
+	
+	public void toggleRewards(boolean reward)
+	{
+		this.hasRewards = reward;
 	}
 	
 	public void addReward(String in)
@@ -95,6 +112,21 @@ public class EachPoll {
 	public int getNum()
 	{
 		return currNum;
+	}
+	
+	public int getDelay()
+	{
+		return delay;
+	}
+	
+	public boolean isClearChat()
+	{
+		return clearChat;
+	}
+	
+	public boolean hasRewards()
+	{
+		return hasRewards;
 	}
 	
 	public ArrayList<EachOption> getOptions()

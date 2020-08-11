@@ -19,10 +19,9 @@ public class CHPTest extends BasicCommand{
 	
 	//Init variables
 	private ArrayList<String> inRewards = new ArrayList<>(); //blank rewards array to put into currentPoll; no rewards allowed for a test poll
-	private EachPoll currentPoll = new EachPoll("","","","",-1,true,inRewards); //blank poll that we can fill with user-provided data later
+	private EachPoll currentPoll = new EachPoll("","","","",0,-1,true,false,false,inRewards); //blank poll that we can fill with user-provided data later
 	private SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss"); //current date and time in a nice format
 	private int currOption = 0; //current option number; incremented for each new option
-	private int delay = 0; //delay for when a poll is announced/voting is enabled, 0 means no delay
 	
 	public CHPTest(CommandSender sender, Command command, String label, String[] args, MainChatPolls plugin) 
 	{
@@ -34,10 +33,10 @@ public class CHPTest extends BasicCommand{
 		//Check if args are valid
 		if (args.length == 0)
 		{
-			CHPStartInteractive chpStartInstance = new CHPStartInteractive(sender, command, label, args, plugin);
-			return chpStartInstance.interactive(); //start interactive CHPStart (Conversations API)
+			sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Interactive mode is not supported with /chptest.");
+			return false;
 		}
-		else if (args.length < 3)
+		else if (args.length < 6)
 		{
 			sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Not enough arguments supplied.");
 			return false;
@@ -110,8 +109,8 @@ public class CHPTest extends BasicCommand{
 				}
 				try
 				{
-					delay = 20*(Integer.parseInt(args[parseArg + 1])); //convert seconds to ticks
-					sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Sending poll in " + delay + " ticks. (" + Integer.parseInt(args[parseArg + 1]) + " seconds)");
+					currentPoll.setDelay(Integer.parseInt(args[parseArg + 1])); 
+					sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Sending poll in " + currentPoll.getDelay() + " seconds. (" + Integer.parseInt(args[parseArg + 1]) + " seconds)");
 				}
 				catch (Exception e)
 				{
@@ -130,19 +129,20 @@ public class CHPTest extends BasicCommand{
 			}
 			if (args[parseArg].toString().equalsIgnoreCase("-clearchat"))
 			{
-				//Clear the chat before a poll is sent
-				for (int c = 0; c < 257; c++)
-				{
-					sender.sendMessage("");
-				}
-				sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Chat cleared.");
+				currentPoll.toggleClearChat(true);
 			}
 		}
 		
+		//Last check for invalid entries
+		if (currentPoll.getTitle().equals("") || currentPoll.getDescription().equals("") || currentPoll.getOptions().size() == 0)
+		{
+			sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Missing -t, -d, or -o!");
+			return false;
+		}
 		//Setup the rest of the poll:::
 		currentPoll.setNumber(plugin.currentPolls.size() + 1); //Number of the current poll
 		currentPoll.setTime(format.format(new Date())); //Time + Date poll was created
-		currentPoll.setVotableFalse(); //Doesn't really matter since the poll won't be added, but test polls can never be voted on
+		currentPoll.toggleVotable(false); //Doesn't really matter since the poll won't be added, but test polls can never be voted on
 		
 		//Start a delayed task; if no delay is set, it will start instantly
 		//Test poll is NOT added to official list of polls; no checks needed to see if it is active or not
@@ -159,7 +159,14 @@ public class CHPTest extends BasicCommand{
 			    	p.sendMessage(plugin.colorize(ChatColor.AQUA + "" + eaOpp.getChoiceNumber() + ") " + eaOpp.getOptionName()));
 			    }
 			    p.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + ChatColor.GOLD + " Use /chpvote " + currentPoll.getNum() + " <yourOption> to vote on this poll!");
-				
+			    if (currentPoll.isClearChat())
+			    {
+			    	//Clear the chat before a poll is sent
+					for (int c = 0; c < 257; c++)
+					{
+						sender.sendMessage("");
+					}
+			    }
 			    //Get sound from config.yml!
 			    //https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html <--- put in config.yml
 			    if (!(plugin.getConfig().getString("ChatPollsSound.StartPoll")).equalsIgnoreCase("None")) //if user does not put none in config, play something
@@ -177,7 +184,7 @@ public class CHPTest extends BasicCommand{
 			    	}
 			    }
 			}
-		}, delay);
+		}, currentPoll.getDelay()*20);
 		return true;
 	}
 }

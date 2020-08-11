@@ -14,7 +14,7 @@ import com.expl0itz.chatpolls.util.EachPoll;
 public class CHPStartCommandTitlePrompt extends StringPrompt{
 
 	private MainChatPolls plugin;
-	private EachPoll newPoll = new EachPoll("", "", "", "", 0, false, new ArrayList<String>());
+	private EachPoll newPoll = new EachPoll("", "", "", "", 0, -1, true, false, false, new ArrayList<String>());
 	private Player currPlayer;
 	
 	public CHPStartCommandTitlePrompt(MainChatPolls plugin, Player pl)

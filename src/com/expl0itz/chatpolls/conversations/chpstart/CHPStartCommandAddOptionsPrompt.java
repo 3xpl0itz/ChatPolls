@@ -49,10 +49,6 @@ public class CHPStartCommandAddOptionsPrompt extends StringPrompt{
 		{
 			return new CHPStartCommandExitPrompt(plugin);
 		}
-		else if (input.equalsIgnoreCase("back"))
-		{
-			return new CHPStartCommandDescriptionPrompt(plugin, currPoll, currPlayer);
-		}
 		if (changeExistingOption)
 		{
 			for (EachOption eaOpp : currPoll.getOptions())
@@ -63,9 +59,13 @@ public class CHPStartCommandAddOptionsPrompt extends StringPrompt{
 				}
 			}
 		}
+		if (input.equalsIgnoreCase("back"))
+		{
+			return new CHPStartCommandDescriptionPrompt(plugin, currPoll, currPlayer);
+		}
 		else
 		{
-			currPoll.addOptions(new EachOption(input, currNum-1));
+			currPoll.addOptions(new EachOption(input, currNum));
 		}
 		return new CHPStartCommandAddOptionsPromptP2(plugin, currPoll, currPlayer);
 	}

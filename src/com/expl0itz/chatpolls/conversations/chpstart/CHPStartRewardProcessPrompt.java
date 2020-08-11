@@ -51,7 +51,7 @@ public class CHPStartRewardProcessPrompt extends StringPrompt{
 	@Override
 	public String getPromptText(ConversationContext context) 
 	{
-		return ChatColor.AQUA + plugin.pluginPrefix + " What would you like to do? (add, remove, modify, list, exit)";
+		return ChatColor.AQUA + plugin.pluginPrefix + " Started rewards editor.\nWhat would you like to do? (add, remove, modify, list, exit)";
 	}
 	
 }

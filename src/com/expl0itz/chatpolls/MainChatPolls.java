@@ -57,6 +57,8 @@ public class MainChatPolls extends JavaPlugin
 	}
 	
 	//Cancel all active background tasks, useful for /chpreload and onDisable()
+	//So far, the following tasks are added to this HashMap:
+	//- Update checker process
 	public void cancelBackgroundTasks()
 	{
 		for (BukkitTask task : backgroundTasks) 

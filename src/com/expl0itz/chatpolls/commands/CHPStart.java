@@ -21,11 +21,10 @@ import com.expl0itz.chatpolls.util.EachPoll;
 public class CHPStart extends BasicCommand{
 	
 	//Init variables
-	private ArrayList<String> inRewards = new ArrayList<>(); //blank rewards array to put into currentPoll
-	private EachPoll currentPoll = new EachPoll("","","","",-1,true,inRewards); //blank poll that we can fill with user-provided data later
-	private SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss"); //current date and time in a nice format
 	private int currOption = 0; //current option number; incremented for each new option
-	private int delay = 0; //delay for when a poll is announced/voting is enabled, 0 means no delay
+	private ArrayList<String> inRewards = new ArrayList<>(); //blank rewards array to put into currentPoll
+	private EachPoll currentPoll = new EachPoll("","","","",0,-1,true,false,false,inRewards); //blank poll that we can fill with user-provided data later
+	private SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss"); //current date and time in a nice format
 	
 	public CHPStart(CommandSender sender, Command command, String label, String[] args, MainChatPolls plugin) 
 	{
@@ -113,8 +112,8 @@ public class CHPStart extends BasicCommand{
 				}
 				try
 				{
-					delay = 20*(Integer.parseInt(args[parseArg + 1])); //convert seconds to ticks
-					sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Sending poll in " + delay + " ticks. (" + Integer.parseInt(args[parseArg + 1]) + " seconds)");
+					currentPoll.setDelay((Integer.parseInt(args[parseArg + 1]))); //convert seconds to ticks
+					sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Sending poll in " + currentPoll.getDelay() + " seconds. (" + Integer.parseInt(args[parseArg + 1]) + " seconds)");
 				}
 				catch (Exception e)
 				{
@@ -134,7 +133,7 @@ public class CHPStart extends BasicCommand{
 			if (args[parseArg].toString().equalsIgnoreCase("-r"))
 			{
 				//Enter rewards editor
-				sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " -r detected. Entered the poll command editor.");
+				sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " -r detected. Entering rewards editor...");
 				Player inPlayer = (Player)sender;
 				ConversationFactory cf = new ConversationFactory(plugin)
 						.withModality(true)
@@ -154,20 +153,21 @@ public class CHPStart extends BasicCommand{
 			}
 			if (args[parseArg].toString().equalsIgnoreCase("-clearchat"))
 			{
-				//Clear the chat before a poll is sent
-				for (int c = 0; c < 257; c++)
-				{
-					Bukkit.broadcastMessage("");
-				}
-				sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Chat cleared.");
+				currentPoll.toggleClearChat(true);
 			}
 		}
 		
+		//Last check for invalid entries
+		if (currentPoll.getTitle().equals("") || currentPoll.getDescription().equals("") || currentPoll.getOptions().size() == 0)
+		{
+			sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Missing -t, -d, or -o!");
+			return false;
+		}
 		//Setup the rest of the poll:::
 		currentPoll.setNumber(plugin.currentPolls.size() + 1); //Number of the current poll
 		currentPoll.setTime(format.format(new Date())); //Time + Date poll was created
 		plugin.currentPolls.add(currentPoll); //Add current poll
-		currentPoll.setVotableFalse(); //Cannot vote on a poll by default before announcement in chat
+		currentPoll.toggleVotable(false); //Cannot vote on a poll by default before announcement in chat
 		
 		//Start a delayed task; if no delay is set, it will start instantly
 		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() 
@@ -179,9 +179,16 @@ public class CHPStart extends BasicCommand{
 				{
 					if (eaPoll.getTime() == currentPoll.getTime()) 
 					{
-						currentPoll.setVotableTrue(); //allow voting
+						currentPoll.toggleVotable(true); //allow voting
 			    		sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Sending poll to all available users...");
-			    		
+			    		if (currentPoll.isClearChat())
+					    {
+					    	//Clear the chat before a poll is sent
+							for (int c = 0; c < 257; c++)
+							{
+								Bukkit.broadcastMessage("");
+							}
+					    }
 			    		//Announce poll to all online players
 			    		for (Player p : Bukkit.getOnlinePlayers())
 			    		{
@@ -212,7 +219,7 @@ public class CHPStart extends BasicCommand{
 					}
 				}
 		    }
-		}, delay);
+		}, currentPoll.getDelay()*20);
 		return true;
 	}
 }

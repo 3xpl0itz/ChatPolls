@@ -37,12 +37,12 @@ public class CHPStartCommandAddOptionsPromptP2 extends StringPrompt{
 		{
 			return new CHPStartCommandAddOptionsPrompt(plugin, currPoll, currPlayer);
 		}
-		return new CHPStartCommandFlagsPrompt(plugin, currPoll, currPlayer);
+		return new CHPStartCommandParseSendPrompt(plugin, currPoll, currPlayer);
 	}
 
 	@Override
 	public String getPromptText(ConversationContext context) 
 	{
-		return ChatColor.AQUA + plugin.pluginPrefix + " What would you like to do? (add, cancel, back, anything else to continue)";
+		return ChatColor.AQUA + plugin.pluginPrefix + " Option added successfully. What would you like to do? (add, cancel, back, anything else to continue)";
 	}
 }

@@ -25,12 +25,12 @@ public class CHPModifyActivePrompt extends StringPrompt{
 	{
 		if (input.equals("Y") && setPoll == true)
 		{
-			currPoll.setVotableTrue();
+			currPoll.toggleVotable(true);
 			return new CHPModifyActivePromptChanged(plugin, currPoll);
 		}
 		else if (input.equals("Y") && setPoll == false)
 		{
-			currPoll.setVotableFalse();
+			currPoll.toggleVotable(false);
 			return new CHPModifyActivePromptChanged(plugin, currPoll);
 		}
 		return new CHPModifyStartProcessPrompt(plugin, currPoll);
@@ -44,7 +44,6 @@ public class CHPModifyActivePrompt extends StringPrompt{
 		{
 			setPoll = false;
 			return out + "This poll allows voting. Would you like to disable voting? (Y, anything else to go to the main menu)";
-			
 		}
 		else
 		{
