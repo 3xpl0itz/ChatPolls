@@ -5,6 +5,12 @@ api-version: 1.15
 author: 3xpl0itz
 main: com.expl0itz.chatpolls.MainChatPolls
 commands:
+    chp:
+        description: Directs the user to a list of ChatPolls's commands.
+        aliases: [chatpolls]
+        usage: /chp
+        permission: chatpolls.chp
+        permission-message: §4You do not have permission to run this command.
     chpversion:
         description: Displays ChatPolls's current version.
         aliases: [chatpollsversion]
@@ -63,6 +69,7 @@ permissions:
     chatpolls.*:
         description: Gives access to all ChatPolls commands.
         children:
+            chatpolls.chp: true
             chatpolls.chpversion: true
             chatpolls.chpstart: true
             chatpolls.chpvote: true
@@ -73,6 +80,9 @@ permissions:
             chatpolls.chpmodify: true
             chatpolls.chptest: true
         default: op
+    chatpolls.chp:
+        description: Directs the user to a list of ChatPolls's commands.
+        default: true
     chatpolls.chpversion:
         description: Displays ChatPolls's current version.
         default: true        

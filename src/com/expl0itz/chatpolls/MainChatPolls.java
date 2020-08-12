@@ -71,7 +71,12 @@ public class MainChatPolls extends JavaPlugin
 	//List of Commands
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
 	{
-		if (command.getName().equalsIgnoreCase("chpversion"))
+		if (command.getName().equalsIgnoreCase("chp"))
+		{
+			sender.sendMessage(ChatColor.AQUA + pluginPrefix + " To see a list of available commands, type /help chatpolls.");
+			return true;
+		}
+		else if (command.getName().equalsIgnoreCase("chpversion"))
 		{
 			sender.sendMessage(ChatColor.AQUA + pluginPrefix + " ChatPolls by 3xpl0itz, version " + pluginVersion + ".");
 			return true;
