@@ -42,7 +42,7 @@ public class CHPInfo extends BasicCommand {
 			sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Please type the number of your desired poll after /chpvote, followed by the number of what option you would like.");
 			return true;
 		}
-		EachPoll currPoll = new EachPoll("","","","",-1,true,null);
+		EachPoll currPoll = new EachPoll("","","","",0,-1,true,false,false,null);
 		for (EachPoll eaPoll : plugin.currentPolls)
 		{
 			if (eaPoll.getNum() == (Integer.parseInt(args[0])))
@@ -60,6 +60,7 @@ public class CHPInfo extends BasicCommand {
 			}
 			return true;
 		}
+		
 		sender.sendMessage(plugin.colorize(ChatColor.AQUA + plugin.pluginPrefix + " Poll " + currPoll.getNum() + ":\nTitle: " +
 		currPoll.getTitle() + "\nDescription: " + currPoll.getDescription()));
 		for (EachOption eaOpp : currPoll.getOptions())

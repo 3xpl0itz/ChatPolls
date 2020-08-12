@@ -38,12 +38,7 @@ public class EachOption {
 	
 	public int getNumVotes()
 	{
-		int outNum = 0;
-		for (EachVote eaVote : allVotes)
-		{
-			outNum++;
-		}
-		return outNum;
+		return allVotes.size();
 	}
 	
 	public ArrayList<EachVote> getVotes()

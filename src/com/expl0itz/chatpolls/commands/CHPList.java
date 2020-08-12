@@ -21,6 +21,7 @@ public class CHPList extends BasicCommand{
 			sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " There are no active polls!");
 			return true;
 		}
+		
 		sender.sendMessage(ChatColor.AQUA + "Available poll numbers:");
 		for (EachPoll eaPoll : plugin.currentPolls)
 		{

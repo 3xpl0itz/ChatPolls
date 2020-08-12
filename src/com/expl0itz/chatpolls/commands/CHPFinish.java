@@ -43,8 +43,9 @@ public class CHPFinish extends BasicCommand {
 			sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " There are no active polls!");
 			return true;
 		}
+		
 		int totalVotes = 0;
-		EachPoll finishedPoll = new EachPoll("","","","",-1,true,null);
+		EachPoll finishedPoll = new EachPoll("","","","",0,-1,true,false,false,null);
 		for (EachPoll eaPoll : plugin.currentPolls) //find current poll, select it
 		{
 			if (eaPoll.getNum() == Integer.parseInt(args[0]))
@@ -62,7 +63,6 @@ public class CHPFinish extends BasicCommand {
 			totalVotes+=eaOpp.getNumVotes();
 		}
 		
-		boolean badConfig = false;
 		for (Player p : Bukkit.getOnlinePlayers())
 		{
 			if (totalVotes == 0) //avoid div by 0
@@ -108,14 +108,10 @@ public class CHPFinish extends BasicCommand {
 				catch (Exception e) //User defined an illegal sound :(
 				{
 					p.playSound(p.getLocation(), Sound.ENTITY_BLAZE_DEATH, 10, 1);
-					badConfig = true;
+					p.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Default blaze death sound was played because your config.yml has an invalid sound, or is corrupted."
+							+ "\nPlease fix this issue to get rid of this message.\nValid Sounds List: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html");
 				}
 			}
-		}
-		if (badConfig)
-		{
-			sender.sendMessage(ChatColor.AQUA + plugin.pluginPrefix + " Default blaze death sound was played because your config.yml has an invalid sound, or is corrupted."
-			+ "\nPlease fix this issue to get rid of this message.\nValid Sounds List: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html");
 		}
 		
 		for (int i = 0; i < plugin.currentPolls.size(); i++)
